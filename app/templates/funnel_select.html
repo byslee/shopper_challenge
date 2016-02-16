@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+  
+  Select date for funnel analytics:
+    <form action="{{ url_for('start_app') }}" method=post>
+      <dl>
+        <dt>First Name:
+        <dd><input type=text size=30 name=first-name>
+        <dt>Last Name:
+        <dd><input type=text size=30 name=last-name>
+        <dt>Region:
+        <dd><select name=region>
+          <option value="san-francisco">San Francisco</option>
+          <option value="san-francisco">Los Angeles</option>
+          <option value="san-francisco">New York</option>
+          <option value="san-francisco">Chicago</option>
+          <option value="san-francisco">Houston</option>
+        </select>
+        <dt>Phone:
+        <dd><input type=text size=30 name=phone>
+        <dt>Email:
+        <dd><input type=text size=30 name=email>
+        <dt>Referral Code:
+        <dd><input type=text size=30 name=source>
+        <dd><input type=submit value=Apply>
+      </dl>
+    </form>
+  {% endif %}
+{% endblock %}

@@ -10,29 +10,31 @@ Notes:
 =============================
 GET MY CODE
 =============================
-$ git clone https://github.com/byslee/shopper_challenge.git
-$ cd shopper_challenge
+$ git clone https://github.com/byslee/shopper_challenge.git  
+$ cd shopper_challenge  
 
 =============================
 INSTALL FLASK (5 min)
-More details at: http://flask.pocoo.org/docs/0.10/installation/#installation
 =============================
-$ sudo pip install virtualenv
-Successfully installed virtualenv-14.0.6
 
-$ cd shopper_challenge
-$ virtualenv venv
-Installing setup tools, pip, wheel...done.
+More details at: http://flask.pocoo.org/docs/0.10/installation/#installation  
 
-$ . venv/bin/activate
-(venv) $ pip install Flask
-Successfully installed Flask-0.10.1 Jinja2-2.8 MarkupSafe-0.23 Werkzeug-0.11.4 itsdangerous-0.24
+$ sudo pip install virtualenv  
+Successfully installed virtualenv-14.0.6  
+
+$ cd shopper_challenge  
+$ virtualenv venv  
+Installing setup tools, pip, wheel...done.  
+
+$ . venv/bin/activate  
+(venv) $ pip install Flask  
+Successfully installed Flask-0.10.1 Jinja2-2.8 MarkupSafe-0.23 Werkzeug-0.11.4 itsdangerous-0.24  
 
 =============================
 SETUP DATABASE
 =============================
-$ cd shopper_challenge/app
-$ sqlite3 applicants.db < schema.sql
+$ cd shopper_challenge/app  
+$ sqlite3 applicants.db < schema.sql  
 
 
 
@@ -50,6 +52,7 @@ Running list of TODOs for myself
 These are things that I know should be implemented, but there wasn't time to.
 
 * Validate entries into form fields and raise error if not well-formed
+* Use JavaScript & Ajax on funnel analytics to change chart without having to load a new page
 
 
 

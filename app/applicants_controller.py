@@ -101,6 +101,59 @@ def confirmation_page():
 # But store session based on user's email
 ##############################################
 
+##############################################
+# FUNNEL ANALYTICS
+##############################################
+
+def get_funnel_json(start_date, end_date):
+	data = {
+	    "2014-12-01-2014-12-07": {
+	        "applied": 100,
+	        "quiz_started": 50,
+	        "quiz_completed": 20,
+	        "onboarding_requested": 10,
+	        "onboarding_completed": 5,
+	        "hired": 1,
+	        "rejected": 0
+	    },
+	    "2014-12-08-2014-12-14": {
+	        "applied": 200,
+	        "quiz_started": 75,
+	        "quiz_completed": 50,
+	        "onboarding_requested": 20,
+	        "onboarding_completed": 10,
+	        "hired": 5,
+	        "rejected": 0
+	    },
+	    "2014-12-15-2014-12-21": {
+	        "applied": 70,
+	        "quiz_started": 20,
+	        "quiz_completed": 10,
+	        "onboarding_requested": 0,
+	        "onboarding_completed": 0,
+	        "hired": 0,
+	        "rejected": 0
+	    },
+	    "2014-12-22-2014-12-28": {
+	        "applied": 40,
+	        "quiz_started": 20,
+	        "quiz_completed": 15,
+	        "onboarding_requested": 5,
+	        "onboarding_completed": 1,
+	        "hired": 1,
+	        "rejected": 0
+	    }
+	}
+	return data
+
+@app.route('/funnel_select')
+def funnel_select():
+	start_date = request.form['start-date']
+	end_date = request.form['end-date']
+	funnel_data = get_funnel_json(start_date, end_date)
+
+@app.route('/funnel_display')
+def funnel_display():
 
 
 ##############################################
