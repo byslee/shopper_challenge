@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+  Thanks for applying! We'll be in touch.
+  {% if session.logged_in %}
+  Current application status:
+  {% endif %}
+{% endblock %}

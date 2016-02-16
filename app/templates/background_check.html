@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+  Congrats! You're on your way to becoming an Instacart shopper.
+  {% if session.logged_in %}
+  Just a few more things... in order to ensure a safe and smooth experience for all of our customers, we run a background check on all our potential shoppers.
+    <form action="{{ url_for('authorize_bg') }}" method=post>
+      <dl>
+        <dt>Do you authorize Instacart to run a background check?
+        <dd><input type=checkbox name=authorize value=bg>
+        <dd><input type=submit value=Next>
+      </dl>
+    </form>
+  {% endif %}
+{% endblock %}
