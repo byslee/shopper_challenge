@@ -114,7 +114,7 @@ def get_funnel_json(start_date, end_date):
 	# order by date -- do this in Python or SQL
 
 
-	query = 'select workflow_state, count(workflow_state) from (select workflow_state from applicants where created_at >= ' + start_date + ' and created_at <= ' + end_date + ') group by workflow_state'
+	query = 'select created_at, workflow_state from applicants where created_at >= ' + start_date + ' and updated_at <= ' + end_date + ') order by workflow_state'
 	cur = g.db.execute(query)
 	for row in cur.fetchall():
 		# do pdb to check what format this is returned in
@@ -131,32 +131,33 @@ def get_funnel_json(start_date, end_date):
 	# 	user selects start_date as Monday and end_date as Sunday
 	#	ie. we discard the periods at end and beginning if they aren't a full week
 
-	weeks = {}
+	# weeks = {}
 
-	start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-	end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+	# start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+	# end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
 
-	current_week_title = ''
-	current_week_contents = {
-		'applied': 0,
-		'quiz_started': 0,
-		'quiz_completed': 0,
-		'onboarding_requested': 0,
-		'onboarding_completed': 0,
-		'hired': 0,
-		'rejected': 0
-	}
+	# current_week_title = ''
+	# current_week_contents = {
+	# 	'applied': 0,
+	# 	'quiz_started': 0,
+	# 	'quiz_completed': 0,
+	# 	'onboarding_requested': 0,
+	# 	'onboarding_completed': 0,
+	# 	'hired': 0,
+	# 	'rejected': 0
+	# }
 
-	for row in results:
-		date_created = row[0]   # TODO: convert to datetime
-		if date_created.weekday() == 0:
-			# this is Monday. break off a new week.
-			current_week_title = # set this
-			current_week_contents = # clear and reset
-		else:
-			# add to the existing week.
-			current_week_contents = # update this based on whatever workflow state is
+	# for row in results:
+	# 	date_created = row[0]   # TODO: convert to datetime
+	# 	if date_created.weekday() == 0:
+	# 		# this is Monday. break off a new week.
+	# 		current_week_title = # set this
+	# 		current_week_contents = # clear and reset
+	# 	else:
+	# 		# add to the existing week.
+	# 		current_week_contents = # update this based on whatever workflow state is
 
+	data = {}
 	# data = {
 	#     "2014-12-01-2014-12-07": {
 	#         "applied": 100,
@@ -205,8 +206,7 @@ def funnel_dashboard():
 def funnel_display():
 	start_date = request.form['start']
 	end_date = request.form['end']
-	# funnel_data = get_funnel_json(start_date, end_date)
-	pdb.set_trace()
+	funnel_data = get_funnel_json(start_date, end_date)
 	funnel_data = {}
 	return render_template('funnel_display.html', funnel_data=funnel_data)
 	
