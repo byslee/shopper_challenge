@@ -106,6 +106,13 @@ def confirmation_page():
 ##############################################
 
 def get_funnel_json(start_date, end_date):
+
+	# group cohorts by the week in which they applied
+	# remember to add backwards to create funnel:
+	# ie. if snapshot shows applied=5 and quiz_started=10
+	# we should set applied = 15 = current # of applied + current # of quiz_started
+
+
 	data = {
 	    "2014-12-01-2014-12-07": {
 	        "applied": 100,
