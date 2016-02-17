@@ -44,7 +44,16 @@ $ cd shopper_challenge
 $ . venv/bin/activate  
 (venv) $ cd app  
 (venv) $ python run_app.py  
-Go to localhost:5000 in browser  
+Go to localhost:5000 in browser
+
+=============================
+FUNNEL ANALYTICS
+============================= 
+$ cd shopper_challenge  
+$ . venv/bin/activate  
+(venv) $ cd app  
+(venv) $ python run_app.py  
+Go to localhost:5000/funnel_dashboard in browser 
 
 
 

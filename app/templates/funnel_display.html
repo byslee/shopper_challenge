@@ -1,8 +1,21 @@
 {% extends "layout.html" %}
 {% block body %}
-  
-  Printing out the JSON data here:
 
-  {{ funnel_data }}
+  <!-- Top navbar. Didn't put this in layout.html because it does change with each page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Instacart logo on the left -->
+      <div class="navbar-header">
+        <a class="navbar-brand logo" href="">Instacart</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+  	<div class="row section-jump">
+	  	{{funnel_data}}
+  	</div>
+  </div>
+  
 
 {% endblock %}

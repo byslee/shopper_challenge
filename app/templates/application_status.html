@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <!-- Top navbar. Didn't put this in layout.html because it does change with each page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Instacart logo on the left -->
+      <div class="navbar-header">
+        <a class="navbar-brand logo" href="">Instacart</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="confirmation-page">
+    <div class="container">
+      <div class="row section-jump custom-box-top-margin">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+          <div class="panel panel-default custom-opacity-box">
+            <!-- panel text -->
+            <div class="panel-body">
+              <div class="custom-center">
+                <p><h2>Application Status</h2></p>
+                <p>We have the following information on file for you:</p>
+              </div>
+              <!-- Right now this is just dummy data. Once fully implemented, the controller should pull from the database, based on user's entered email-->
+              <ul>
+                <li><strong>Name: </strong>Cookie Lyon</li>
+                <li><strong>Phone Number: </strong>617-888-3333</li>
+                <li><strong>Email: </strong>lyon.dynasty@gmail.com</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

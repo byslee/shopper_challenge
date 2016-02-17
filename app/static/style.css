@@ -1,0 +1,88 @@
+.jumbotron {
+    background-image: url("cover1.jpg");
+    background-size: cover;
+    min-height: 500px;
+}
+
+.jumbotron-heading{
+	padding-top: 150px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 100px;
+	color: white;
+
+}
+
+/* since the fixed navbar is 40px tall */
+.section-jump{
+	padding-top: 50px;
+}
+
+.logo{
+	font-family: 'Syncopate', sans-serif;
+}
+
+.font-large{
+	font-size: 40px;
+	font-weight: bold;
+}
+
+/* background images and formatting for later pages */
+.background-check {
+	background-image: url("contextual2.jpg");
+	background-size: cover;
+	min-height: 600px;
+}
+
+.confirmation-page {
+	background-image: url("cover4.jpg");
+	background-size: cover;
+	min-height: 600px;
+}
+
+/*.funnel-pages {
+	background-color: #D0D0D0;
+}*/
+
+.panel-body {
+	padding-top: 25px;
+	padding-left: 25px;
+	padding-right: 25px;
+	padding-bottom: 25px;
+	/*text-align: center;*/
+}
+
+.custom-heading-1 {
+	text-align: center;
+	padding-top: 150px;
+}
+
+.custom-center {
+	text-align: center;
+}
+
+.custom-h1 {
+	font-weight: bold;
+	font-size: 50px;
+	color: black;
+	opacity: 0.85;
+}
+
+.custom-h2 {
+	font-weight: bold;
+	font-size: 30px;
+	color: black;
+	opacity: 0.65;
+}
+
+.custom-opacity-box {
+	opacity: 0.7;
+}
+
+.custom-opacity-dark {
+	opacity: 0.9;
+}
+
+.custom-box-top-margin {
+	padding-top: 200px;
+}

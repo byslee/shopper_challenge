@@ -1,13 +1,46 @@
 {% extends "layout.html" %}
 {% block body %}
-  
-  Select date for funnel analytics:
-    <form action="{{ url_for('funnel_display') }}" method=post>
-      Start:
-      <input type="date" name="start" min="2010-01-01" max="2014-12-31"><br><br>
-      End:
-      <input type="date" name="end" min="2010-01-01" max="2014-12-31"><br><br>
-      <input type="submit"> 
-    </form>
+
+  <!-- Top navbar. Didn't put this in layout.html because it does change with each page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Instacart logo on the left -->
+      <div class="navbar-header">
+        <a class="navbar-brand logo" href="">Instacart</a>
+      </div>
+    </div>
+  </nav>
+
+<div class="">
+	<div class="container">
+		<div class="row section-jump custom-box-top-margin">
+			<div class="col-md-3">
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+		            <!-- flashed messages only show up if user fails validation -->
+		            {% for message in get_flashed_messages() %}
+		              <div class="alert alert-warning" role="alert">{{message}}</div>
+		            {% endfor %}
+					<div class="panel-body custom-center">
+						<!-- text -->
+						<p><h2>Funnel Analytics</h2></p>
+						<p>Select dates to analyze. Funnel will include all shoppers that started application between start and end dates.</p>
+						<!-- form -->
+						<form action="{{ url_for('funnel_display') }}" method=post>
+							Start:
+							<input type="date" name="start" min="2010-01-01" max="2014-12-31"><br><br>
+							End:
+							<input type="date" name="end" min="2010-01-01" max="2014-12-31"><br><br>
+				            <button type="submit" class="btn btn-default">Submit</button> 
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+			</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}

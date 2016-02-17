@@ -75,7 +75,6 @@ def start_app():
 		]
 	)
 	g.db.commit()
-	flash('Successfully started application!')
 	return redirect(url_for('background_check'))
 
 @app.route('/background')
@@ -88,12 +87,19 @@ def authorize_bg():
 	if request.form.get('authorize', None):
 		return redirect(url_for('confirmation_page'))
 	else:
-		flash('Please authorize a background check in order to proceed')
+		flash('Hold up! Please authorize a background check in order to proceed.')
 		return redirect(url_for('background_check'))
 
 @app.route('/confirmation')
 def confirmation_page():
 	return render_template('confirmation_page.html')
+
+@app.route('/status')
+def application_status():
+	# this page doesn't have much functionality right now
+	# however I wanted to add it in as placeholder
+	# for good UX: keep the user updated on where they are in the flow, give them transparency
+	return render_template('application_status.html')
 
 
 ##############################################
@@ -200,6 +206,20 @@ def funnel_display():
 	# 	Make sure that start_date = Monday and end_date = Sunday (simplifying assumption given time constraints)
 	start_date = request.form['start']
 	end_date = request.form['end']
+	if start_date == '' or end_date == '':
+		flash('Please select a start date and end date.')
+		return redirect(url_for('funnel_dashboard'))
+	start_date_obj = datetime.datetime.strptime(start_date, '%Y-%m-%d') # hack b/c added later
+	end_date_obj = datetime.datetime.strptime(end_date, '%Y-%m-%d')  # hack b/c added later
+	if end_date < start_date:
+		flash('Please select an end date after the start date.')
+		return redirect(url_for('funnel_dashboard'))
+	if start_date_obj.weekday() != 0:
+		flash('Please select a Monday as the start date.')
+		return redirect(url_for('funnel_dashboard'))
+	if end_date_obj.weekday() != 6:
+		flash('Please select a Sunday as the end date.')
+		return redirect(url_for('funnel_dashboard'))
 	funnel_data = get_funnel_json(start_date, end_date)
 	return render_template('funnel_display.html', funnel_data=funnel_data)
 	

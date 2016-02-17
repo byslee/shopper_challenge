@@ -1,7 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
-  Thanks for applying! We'll be in touch.
-  {% if session.logged_in %}
-  Current application status:
-  {% endif %}
+
+  <!-- Top navbar. Didn't put this in layout.html because it does change with each page -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Instacart logo on the left -->
+      <div class="navbar-header">
+        <a class="navbar-brand logo" href="">Instacart</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="confirmation-page">
+    <div class="container">
+      <div class="row section-jump custom-heading-1">
+        <p class="custom-h1">Thanks for applying!</p>
+        <p class="custom-h2 custom-opacity-dark">We'll be in touch within the next 3 days</p>
+      </div>
+      <div class="row section-jump">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-default custom-opacity-box">
+            <!-- panel text -->
+            <div class="panel-body custom-center">
+              <p>In the meantime, you can always come back and check your application status <a href="">here</a>!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
