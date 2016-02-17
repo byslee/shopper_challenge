@@ -42,8 +42,8 @@ RUN THE APP
 =============================
 $ cd shopper_challenge  
 $ . venv/bin/activate  
-$ cd app
-$ python run_app.py  
+(venv) $ cd app  
+(venv) $ python run_app.py  
 Go to localhost:5000 in browser  
 
 
