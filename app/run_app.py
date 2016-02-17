@@ -1,6 +1,5 @@
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from contextlib import closing
+from flask import Flask, request, g, redirect, url_for, render_template, flash
 import datetime
 import pdb
 import json
@@ -9,8 +8,8 @@ import json
 DATABASE = 'applicants.db'
 DEBUG = True
 SECRET_KEY = 'y0s#$t0m0'
-USERNAME = 'admin'   # TODO: allow more than 1 user
-PASSWORD = 'd0n@t3ll@'  # TODO: allow more than 1 user
+# USERNAME = 'admin'   # TODO: allow more than 1 user
+# PASSWORD = 'd0n@t3ll@'  # TODO: allow more than 1 user
 
 
 app = Flask(__name__)
@@ -25,12 +24,6 @@ app.config.from_object(__name__)
 
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE'])
-
-# def init_db():
-# 	with closing(connect_db()) as db:
-# 		with app.open_resource('schema.sql', mode='r') as f:
-# 			db.cursor().executescript(f.read())
-# 		db.commit()
 
 @app.before_request
 def before_request():
@@ -50,12 +43,25 @@ def teardown_request(exception):
 
 @app.route('/')
 def landing_page():
-	session['logged_in'] = True  # TODO: change this to pick the specific user
 	return render_template('landing_page.html')
 
 @app.route('/start', methods=['POST'])
 def start_app():
-	# pdb.set_trace()
+	# form validation
+	# for best UX: should implement front-end validation
+	if request.form['first-name'] == '':
+		flash('Please fill out your first name')
+		return redirect(url_for('landing_page', _anchor='application'))
+	if request.form['last-name'] == '':
+		flash('Please fill out your last name')
+		return redirect(url_for('landing_page', _anchor='application'))
+	if request.form['phone'] == '':
+		flash('Please fill out your phone number')
+		return redirect(url_for('landing_page', _anchor='application'))
+	if request.form['email'] == '':
+		flash('Please fill out your email')
+		return redirect(url_for('landing_page', _anchor='application'))
+	# if validation successful: add user to database
 	query = 'insert into applicants (first_name, last_name, region, phone, email, phone_type, source, over_21, reason, workflow_state, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 	g.db.execute(
 		query,
@@ -83,7 +89,6 @@ def background_check():
 
 @app.route('/authorize_bg', methods=['POST'])
 def authorize_bg():
-	# pdb.set_trace()
 	if request.form.get('authorize', None):
 		return redirect(url_for('confirmation_page'))
 	else:
@@ -101,12 +106,6 @@ def application_status():
 	# for good UX: keep the user updated on where they are in the flow, give them transparency
 	return render_template('application_status.html')
 
-
-##############################################
-# LOGIN AND LOGOUT
-# Don't need to authenticate with password
-# But store session based on user's email
-##############################################
 
 ##############################################
 # FUNNEL ANALYTICS
@@ -163,7 +162,6 @@ def get_funnel_json(start_date, end_date):
 	current_week_contents = {}
 	for day in all_dates:
 		entry = grouped_by_date[day]
-		# pdb.set_trace()
 		if day.weekday() == 0:  # this is Monday
 			# break off old week
 			if len(current_week_title) > 0:

@@ -6,7 +6,7 @@
     <div class="container">
       <!-- Instacart logo on the left -->
       <div class="navbar-header">
-        <a class="navbar-brand logo" href="">Instacart</a>
+        <a class="navbar-brand logo" href="http://www.instacart.com">Instacart</a>
       </div>
       <!-- Application status link on the right -->
       <div id="navbar" class="navbar-collapse collapse">
@@ -22,7 +22,7 @@
     <div class="container jumbotron-heading">
       <span>shop for us</span>
       <p>Instacart shoppers make up to $20 an hour shopping and delivering groceries</p>
-      <p><a class="btn btn-success btn-sm" href="#application" role="button">apply now &raquo;</a></p>
+      <p><a class="btn btn-success btn-lg" href="#application" role="button">apply now &raquo;</a></p>
     </div>
   </div>
 
@@ -67,6 +67,11 @@
       <p>Getting started takes less than 5 minutes! Just fill out the short form below.</p>
       <br><!-- Quick hack. Correct solution would be to add div class="padding-custom" that specifies how many px of whitespace to leave -->
       <div class="col-md-6">
+        <!-- flashed messages only show up if user fails validation -->
+        {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning" role="alert">{{message}}</div>
+        {% endfor %}
+        <!-- form -->
         <form class="form-horizontal" action="{{ url_for('start_app') }}" method=post>
           <div class="form-group">
             <label for="first-name" class="col-sm-3 control-label">First Name</label>

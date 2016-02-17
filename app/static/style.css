@@ -1,7 +1,7 @@
 .jumbotron {
     background-image: url("cover1.jpg");
     background-size: cover;
-    min-height: 500px;
+    min-height: 600px;
 }
 
 .jumbotron-heading{
@@ -77,6 +77,7 @@
 
 .custom-opacity-box {
 	opacity: 0.7;
+	color:black;
 }
 
 .custom-opacity-dark {

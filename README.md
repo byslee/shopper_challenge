@@ -55,6 +55,13 @@ $ . venv/bin/activate
 (venv) $ python run_app.py  
 Go to localhost:5000/funnel_dashboard in browser 
 
+To test with dummy data:  
+$ cd shopper_challenge  
+$ cd app  
+$ sqlite3 applicants.db < schema.sql  
+$ sqlite3 applicants.db < dummy.sql  
+In the browser: Go to /funnel_dashboard and select dates from Dec 1 2014 to Dec 28 2014
+
 
 
 =============================
@@ -68,24 +75,20 @@ Funnel Analytics
 * I am not familiar enough with above to make a decision. I will default to using less database calls (I think it is faster, plus fewer reads = less potential for error) and processing all of the data in Python. I would guess there are maybe ~50K shopper applicants per year, Python should be able to handle that easily.
 
 =============================
-TODO & Design Notes
+Outstanding TODOs
 =============================
 
-Running list of TODOs for myself
+Master list in descending order of priority
 
-* Change text on pages to flashed messages
-* Nice display for the funnel
-* Backend validation for date picker on funnel: end_date > start_date
+* Allow user to retrieve application status keyed off email
+* Better funnel visualization
+* Faster funnel query -- Python versus SQL
+* Frontend validation of form fields on the application form & date picker on funnel dashboard - better UX: instead of notifying the user of mistake after they submit, prevent them from making the mistake in the first place
 
-These are things that I know should be implemented, but there wasn't time to.
+Nice to haves
 
-* Validate entries into form fields and raise error if not well-formed (front-end validation)
-* Use JavaScript & Ajax on funnel analytics to change chart without having to load a new page
-* Front-end validation for date picker on funnel
-
-Nice-to-have: things I would do if I had unlimited time.
-
-* Progress bar on Shopper Applicant page to indicate where they are in the flow.
+* Use JavaScript & Ajax on funnel display to change chart without having to load a new page
+* Progress bar on Shopper Applicant page to indicate where they are in the flow
 
 
 

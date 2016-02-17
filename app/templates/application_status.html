@@ -6,9 +6,16 @@
     <div class="container">
       <!-- Instacart logo on the left -->
       <div class="navbar-header">
-        <a class="navbar-brand logo" href="">Instacart</a>
+        <a class="navbar-brand logo" href="http://www.instacart.com">Instacart</a>
+      </div>
+      <!-- Application status link on the right -->
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('landing_page') }}">back to main shopper page</a></li>
+        </ul>
       </div>
     </div>
+
   </nav>
 
   <div class="confirmation-page">
