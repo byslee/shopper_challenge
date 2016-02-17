@@ -3,6 +3,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from contextlib import closing
 import datetime
 import pdb
+import json
 
 # config
 DATABASE = 'applicants.db'
@@ -105,98 +106,88 @@ def confirmation_page():
 # FUNNEL ANALYTICS
 ##############################################
 
+def format_week_title(monday_date):      # takes a datetime object
+	sunday_date = monday_date + datetime.timedelta(days=6)
+	return monday_date.strftime('%Y-%m-%d') + '-' + sunday_date.strftime('%Y-%m-%d')
+
 
 def get_funnel_json(start_date, end_date):
 
-	# TODO: modify this query
-	# group by date and sum
-	# select between created_at and updated_at
-	# order by date -- do this in Python or SQL
-
-
-	query = 'select created_at, workflow_state from applicants where created_at >= ' + start_date + ' and updated_at <= ' + end_date + ') order by workflow_state'
-	cur = g.db.execute(query)
-	for row in cur.fetchall():
-		# do pdb to check what format this is returned in
-		print row
-
-
-	# group cohorts by the week in which they applied
-	# remember to add backwards to create funnel:
-	# ie. if snapshot shows applied=5 and quiz_started=10
-	# we should set applied = 15 = current # of applied + current # of quiz_started
-
-	# break the time period into weeks
-	# simplifying assumption given time constraints:
-	# 	user selects start_date as Monday and end_date as Sunday
-	#	ie. we discard the periods at end and beginning if they aren't a full week
-
-	# weeks = {}
-
-	# start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-	# end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-
-	# current_week_title = ''
-	# current_week_contents = {
-	# 	'applied': 0,
-	# 	'quiz_started': 0,
-	# 	'quiz_completed': 0,
-	# 	'onboarding_requested': 0,
-	# 	'onboarding_completed': 0,
-	# 	'hired': 0,
-	# 	'rejected': 0
-	# }
-
-	# for row in results:
-	# 	date_created = row[0]   # TODO: convert to datetime
-	# 	if date_created.weekday() == 0:
-	# 		# this is Monday. break off a new week.
-	# 		current_week_title = # set this
-	# 		current_week_contents = # clear and reset
-	# 	else:
-	# 		# add to the existing week.
-	# 		current_week_contents = # update this based on whatever workflow state is
-
 	data = {}
-	# data = {
-	#     "2014-12-01-2014-12-07": {
-	#         "applied": 100,
-	#         "quiz_started": 50,
-	#         "quiz_completed": 20,
-	#         "onboarding_requested": 10,
-	#         "onboarding_completed": 5,
-	#         "hired": 1,
-	#         "rejected": 0
-	#     },
-	#     "2014-12-08-2014-12-14": {
-	#         "applied": 200,
-	#         "quiz_started": 75,
-	#         "quiz_completed": 50,
-	#         "onboarding_requested": 20,
-	#         "onboarding_completed": 10,
-	#         "hired": 5,
-	#         "rejected": 0
-	#     },
-	#     "2014-12-15-2014-12-21": {
-	#         "applied": 70,
-	#         "quiz_started": 20,
-	#         "quiz_completed": 10,
-	#         "onboarding_requested": 0,
-	#         "onboarding_completed": 0,
-	#         "hired": 0,
-	#         "rejected": 0
-	#     },
-	#     "2014-12-22-2014-12-28": {
-	#         "applied": 40,
-	#         "quiz_started": 20,
-	#         "quiz_completed": 15,
-	#         "onboarding_requested": 5,
-	#         "onboarding_completed": 1,
-	#         "hired": 1,
-	#         "rejected": 0
-	#     }
-	# }
-	return data
+
+	# query constraints: compare created_at <= end_date, not updated_at <= end_date
+	# because if we use updated_at, we'll miss counting those people who were updated more
+	# recently than end_date, but actually joined during (start_date to end_date)
+	query = 'select created_at, workflow_state from applicants where created_at >= ? and created_at <= ?'
+	cur = g.db.execute(
+		query,
+		[
+			start_date,
+			end_date
+		]
+	)
+
+	# hack: fill this out later to prevent problems with group by week (if we're missing dates)
+	# gives sorted list of all dates between start date and end date
+	all_dates = []
+	current = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+	end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+	while current <= end:
+		all_dates.append(current)
+		current = current + datetime.timedelta(days=1)
+
+	# I haven't grouped by date because created_at stores datetime, not date
+	# I'm not as familiar with SQL -- maybe there is an easy way around this
+	# Below, group cohorts by date they started
+	grouped_by_date = {}
+	for date in all_dates:
+		grouped_by_date[date] = {}
+	for row in cur.fetchall():
+		create_date = datetime.datetime.strptime(row[0], '%Y-%m-%d')
+		workflow_state = row[1]
+		if workflow_state not in grouped_by_date[create_date]:
+			grouped_by_date[create_date][workflow_state] = 1
+		else:
+			grouped_by_date[create_date][workflow_state] += 1
+
+	# print grouped_by_date
+
+	# now group cohorts by the week in which they applied
+	# simplifying assumptions given time constraints:
+	# 	user selects start_date as Monday and end_date as Sunday
+	current_week_title = ''
+	current_week_contents = {}
+	for day in all_dates:
+		entry = grouped_by_date[day]
+		# pdb.set_trace()
+		if day.weekday() == 0:  # this is Monday
+			# break off old week
+			if len(current_week_title) > 0:
+				data[current_week_title] = current_week_contents
+			# start new week
+			current_week_title = format_week_title(day)
+			current_week_contents = {
+				'applied': entry.get('applied', 0),
+				'quiz_started': entry.get('quiz_started', 0),
+				'quiz_completed': entry.get('quiz_completed', 0),
+				'onboarding_requested': entry.get('onboarding_requested', 0),
+				'onboarding_completed': entry.get('onboarding_completed', 0),
+				'hired': entry.get('hired', 0),
+				'rejected': entry.get('rejected', 0)
+			}
+		else:
+			for key in entry:
+				current_week_contents[key] += entry[key]
+
+	# QUESTION about endpoints
+	# Do we need to add backwards to create funnel? Or will that be handled by funnel visualization code?
+	# ie. if current snapshot in time shows applied=5 and quiz_started=10 for a week
+	# Should we should set applied = 15 = current # of applied + current # of quiz_started
+	# otherwise the buckets give a distribution, not a funnel
+
+	# TODO: dict is unordered -- how to fix?
+	# 	Could store data as list of lists -- but then json.dumps() keeps it as a list, not dict
+	return json.dumps(data)
 
 @app.route('/funnel_dashboard')
 def funnel_dashboard():
@@ -204,10 +195,12 @@ def funnel_dashboard():
 
 @app.route('/funnel_display', methods=['GET', 'POST'])
 def funnel_display():
+	# TODO: validation methods
+	# 	Make sure that start_date < end_date
+	# 	Make sure that start_date = Monday and end_date = Sunday (simplifying assumption given time constraints)
 	start_date = request.form['start']
 	end_date = request.form['end']
 	funnel_data = get_funnel_json(start_date, end_date)
-	funnel_data = {}
 	return render_template('funnel_display.html', funnel_data=funnel_data)
 	
 
