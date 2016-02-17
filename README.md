@@ -5,6 +5,7 @@ Notes:
 * Original starter code was a Rails app. I haven't used Ruby nor Rails in depth before. Gave it a try but ran into problems while trying to install Nokogiri, tried to fix it for ~1 hour.
 * Decided to write app in Python/Flask from scratch and then integrate with any necessary parts from the starter app. (Since I am familiar with Python, and Flask is a lightweight framework so it's easy and fast to get it set up.)
 * Design decisions/tradeoffs noted at bottom of this doc
+* Step-by-step instructions on how to run the app are below
 
 
 
@@ -15,7 +16,7 @@ $ git clone https://github.com/byslee/shopper_challenge.git
 $ cd shopper_challenge  
 
 =============================
-INSTALL FLASK (5 min)
+INSTALL FLASK (< 5 min)
 =============================
 
 More details at: http://flask.pocoo.org/docs/0.10/installation/#installation  
@@ -80,7 +81,9 @@ Outstanding TODOs
 
 Master list in descending order of priority
 
+* Fine tune the hero image & text on landing page. White subheading is hard to read. Tried putting translucent overlay under it but couldn't get it exactly right.
 * Allow user to retrieve application status keyed off email
+* Better validation messages -- highlighting the specific field that is missing, passing form data with redirect so that user doesn't have to re-type everything again
 * Better funnel visualization
 * Faster funnel query -- Python versus SQL
 * Frontend validation of form fields on the application form & date picker on funnel dashboard - better UX: instead of notifying the user of mistake after they submit, prevent them from making the mistake in the first place

@@ -21,7 +21,8 @@
   <div class="jumbotron">
     <div class="container jumbotron-heading">
       <span>shop for us</span>
-      <p>Instacart shoppers make up to $20 an hour shopping and delivering groceries</p>
+      <!-- TODO: text is a bit hard to read. could put translucent overlay behind it... but started to look too busy -->
+      <p>Instacart shoppers <strong>make up to $20 an hour</strong> shopping and delivering groceries</p>
       <p><a class="btn btn-success btn-lg" href="#application" role="button">apply now &raquo;</a></p>
     </div>
   </div>
@@ -32,8 +33,9 @@
     <!-- about section -->
     <div class="row section-jump" id="about">
       <h1>how it works</h1>
-      <p>description</p>
-      <p>description</p>
+      <!-- this text is taken from Instacart FAQ -->
+      <p>Instacart is an on-demand grocery delivery service. Customers order groceries from their favorite local stores and we handpick the items and deliver the order to them.</p>
+      <p>We're looking for dedicated and highly motivated individuals to become our next generation of shoppers! As a shopper, you will fulfill orders from customers and deliver groceries to them. We already have thousands of shoppers on our team in 15+ and we're growing fast. Join us today!</p>
     </div>
 
     <!-- why be a shopper? -->
@@ -41,85 +43,95 @@
       <h1>benefits</h1>
       <br>
       <div class="col-md-3">
-        <img src = "" class="img-responsive">
+        <img src = "static/poster1.jpeg" class="img-responsive img-circle">
         <h3><span class="font-large">1 </span>flexibility</h3>
-        <p>Short description</p>
+        <p>Set your own hours with flexible times</p>
       </div>
       <div class="col-md-1">
       </div>
       <div class="col-md-3">
-        <img src = "" class="img-responsive">
-        <h3><span class="font-large">2 </span>earn great money</h3>
-        <p>Short description</p>
+        <img src = "static/hifi1.jpeg" class="img-responsive img-circle">
+        <h3><span class="font-large">2 </span>great pay</h3>
+        <p>Top shoppers can make $1,000 a week</p>
       </div>
       <div class="col-md-1">
       </div>
       <div class="col-md-3">
-        <img src = "" class="img-responsive">
+        <img src = "static/contextual3.jpeg" class="img-responsive img-circle">
         <h3><span class="font-large">3 </span>help others</h3>
-        <p>Short description</p>
+        <p>Improve the lives of our customers. Join the future of grocery shopping!</p>
       </div>
     </div>
 
     <!-- application form -->
     <div class="row section-jump" id="application">
+
+      <div class="panel panel-default custom-panel">
+        <div class="panel-body">
+
       <h1>apply now</h1>
       <p>Getting started takes less than 5 minutes! Just fill out the short form below.</p>
       <br><!-- Quick hack. Correct solution would be to add div class="padding-custom" that specifies how many px of whitespace to leave -->
-      <div class="col-md-6">
-        <!-- flashed messages only show up if user fails validation -->
-        {% for message in get_flashed_messages() %}
-          <div class="alert alert-warning" role="alert">{{message}}</div>
-        {% endfor %}
-        <!-- form -->
-        <form class="form-horizontal" action="{{ url_for('start_app') }}" method=post>
-          <div class="form-group">
-            <label for="first-name" class="col-sm-3 control-label">First Name</label>
-            <div class="col-sm-9">
-              <input type=text class="form-control" id="first-name" name="first-name" placeholder="Your first name">
+
+
+
+            <div class="col-md-6">
+              <!-- flashed messages only show up if user fails validation -->
+              {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning" role="alert">{{message}}</div>
+              {% endfor %}
+              <!-- form -->
+              <form class="form-horizontal" action="{{ url_for('start_app') }}" method=post>
+                <div class="form-group">
+                  <label for="first-name" class="col-sm-3 control-label">First Name</label>
+                  <div class="col-sm-9">
+                    <input type=text class="form-control" id="first-name" name="first-name" placeholder="Your first name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="last-name" class="col-sm-3 control-label">Last Name</label>
+                  <div class="col-sm-9">
+                    <input type=text class="form-control" id="last-name" name="last-name" placeholder="Your last name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="region" class="col-sm-3 control-label">Region</label>
+                  <div class="col-sm-9">
+                    <select name=region id="region" class="form-control">
+                      <option value="san-francisco">San Francisco</option>
+                      <option value="san-francisco">Los Angeles</option>
+                      <option value="san-francisco">New York</option>
+                      <option value="san-francisco">Chicago</option>
+                      <option value="san-francisco">Houston</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email" class="col-sm-3 control-label">Email</label>
+                  <div class="col-sm-9">
+                    <input type=text class="form-control" id="email" name="email" placeholder="abc@gmail.com">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="phone" class="col-sm-3 control-label">Phone</label>
+                  <div class="col-sm-9">
+                    <input type=text class="form-control" id="phone" name="phone" placeholder="650-xxx-xxxx">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="source" class="col-sm-3 control-label">Referral</label>
+                  <div class="col-sm-9">
+                    <input type=text class="form-control" id="source" name="source" placeholder="(optional) enter referral code">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" class="btn btn-default">Apply</button>
+                </div>
+              </form>
+
             </div>
           </div>
-          <div class="form-group">
-            <label for="last-name" class="col-sm-3 control-label">Last Name</label>
-            <div class="col-sm-9">
-              <input type=text class="form-control" id="last-name" name="last-name" placeholder="Your last name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="region" class="col-sm-3 control-label">Region</label>
-            <div class="col-sm-9">
-              <select name=region id="region" class="form-control">
-                <option value="san-francisco">San Francisco</option>
-                <option value="san-francisco">Los Angeles</option>
-                <option value="san-francisco">New York</option>
-                <option value="san-francisco">Chicago</option>
-                <option value="san-francisco">Houston</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="email" class="col-sm-3 control-label">Email</label>
-            <div class="col-sm-9">
-              <input type=text class="form-control" id="email" name="email" placeholder="abc@gmail.com">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="phone" class="col-sm-3 control-label">Phone</label>
-            <div class="col-sm-9">
-              <input type=text class="form-control" id="phone" name="phone" placeholder="650-xxx-xxxx">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="source" class="col-sm-3 control-label">Referral</label>
-            <div class="col-sm-9">
-              <input type=text class="form-control" id="source" name="source" placeholder="(optional) enter referral code">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
-            <button type="submit" class="btn btn-default">Apply</button>
-          </div>
-        </form>
       </div>
     </div>
   

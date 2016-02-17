@@ -8,8 +8,6 @@ import json
 DATABASE = 'applicants.db'
 DEBUG = True
 SECRET_KEY = 'y0s#$t0m0'
-# USERNAME = 'admin'   # TODO: allow more than 1 user
-# PASSWORD = 'd0n@t3ll@'  # TODO: allow more than 1 user
 
 
 app = Flask(__name__)
