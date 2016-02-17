@@ -8,13 +8,30 @@
       <div class="navbar-header">
         <a class="navbar-brand logo" href="">Instacart</a>
       </div>
+      <!-- navigate back to dashboard -->
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('funnel_dashboard') }}">Run New Query</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
   <div class="container">
-  	<div class="row section-jump">
-	  	{{funnel_data}}
-  	</div>
+  	{% for entry in funnel_data %}
+	  	<div class="row section-jump">
+	  		<h2> {{ entry.title }} </h2>
+	  		<ul>
+	  			<li><strong>Applied: </strong>{{ entry.applied }}</li>
+	  			<li><strong>Quiz Started: </strong>{{ entry.quiz_started }}</li>
+	  			<li><strong>Quiz Completed: </strong>{{ entry.quiz_completed }}</li>
+	  			<li><strong>Onboarding Requested: </strong>{{ entry.onboarding_requested }}</li>
+	  			<li><strong>Onboarding Completed: </strong>{{ entry.onboarding_completed }}</li>
+	  			<li><strong>Hired: </strong>{{ entry.hired }}</li>
+	  			<li><strong>Rejected: </strong>{{ entry.rejected }}</li>
+	  		</ul>
+	  	</div>
+  	{% endfor %}
   </div>
   
 

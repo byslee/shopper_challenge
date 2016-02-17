@@ -119,7 +119,7 @@ def format_week_title(monday_date):      # takes a datetime object
 
 def get_funnel_json(start_date, end_date):
 
-	data = {}
+	data = []
 
 	# query constraints: compare created_at <= end_date, not updated_at <= end_date
 	# because if we use updated_at, we'll miss counting those people who were updated more
@@ -156,8 +156,6 @@ def get_funnel_json(start_date, end_date):
 		else:
 			grouped_by_date[create_date][workflow_state] += 1
 
-	# print grouped_by_date
-
 	# now group cohorts by the week in which they applied
 	# simplifying assumptions given time constraints:
 	# 	user selects start_date as Monday and end_date as Sunday
@@ -169,7 +167,16 @@ def get_funnel_json(start_date, end_date):
 		if day.weekday() == 0:  # this is Monday
 			# break off old week
 			if len(current_week_title) > 0:
-				data[current_week_title] = current_week_contents
+				this_week = {}
+				this_week['title'] = current_week_title
+				this_week['applied'] = current_week_contents['applied'] + current_week_contents['quiz_started'] + current_week_contents['quiz_completed'] + current_week_contents['onboarding_requested'] + current_week_contents['onboarding_completed'] + current_week_contents['hired'] + current_week_contents['rejected']
+				this_week['quiz_started'] = current_week_contents['quiz_started'] + current_week_contents['quiz_completed'] + current_week_contents['onboarding_requested'] + current_week_contents['onboarding_completed'] + current_week_contents['hired'] + current_week_contents['rejected']
+				this_week['quiz_completed'] = current_week_contents['quiz_completed'] + current_week_contents['onboarding_requested'] + current_week_contents['onboarding_completed'] + current_week_contents['hired'] + current_week_contents['rejected']
+				this_week['onboarding_requested'] = current_week_contents['onboarding_requested'] + current_week_contents['onboarding_completed'] + current_week_contents['hired'] + current_week_contents['rejected']
+				this_week['onboarding_completed'] = current_week_contents['onboarding_completed'] + current_week_contents['hired'] + current_week_contents['rejected']
+				this_week['hired'] = current_week_contents['hired']
+				this_week['rejected'] = current_week_contents['rejected']
+				data.append(this_week)
 			# start new week
 			current_week_title = format_week_title(day)
 			current_week_contents = {
@@ -190,10 +197,16 @@ def get_funnel_json(start_date, end_date):
 	# ie. if current snapshot in time shows applied=5 and quiz_started=10 for a week
 	# Should we should set applied = 15 = current # of applied + current # of quiz_started
 	# otherwise the buckets give a distribution, not a funnel
-
+	#
 	# TODO: dict is unordered -- how to fix?
 	# 	Could store data as list of lists -- but then json.dumps() keeps it as a list, not dict
-	return json.dumps(data)
+	#
+	# TEMPORARY SOLUTION:
+	# 	Since I am not passing json to an external data visualization library (ran out of time)
+	#	will just show it in text format
+	#	will calculate the funnel on the backend here
+	# 	pass data as list of lists
+	return data
 
 @app.route('/funnel_dashboard')
 def funnel_dashboard():
@@ -201,9 +214,6 @@ def funnel_dashboard():
 
 @app.route('/funnel_display', methods=['GET', 'POST'])
 def funnel_display():
-	# TODO: validation methods
-	# 	Make sure that start_date < end_date
-	# 	Make sure that start_date = Monday and end_date = Sunday (simplifying assumption given time constraints)
 	start_date = request.form['start']
 	end_date = request.form['end']
 	if start_date == '' or end_date == '':
